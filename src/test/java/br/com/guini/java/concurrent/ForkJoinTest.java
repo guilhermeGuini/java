@@ -6,12 +6,13 @@ import org.springframework.util.StopWatch;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.RecursiveAction;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 
 class ForkJoinTest {
 
     @Test
-    void test() {
+    void test() throws InterruptedException {
         class ArrayFill extends RecursiveAction {
             private static final int MIN_SIZE_TO_FILL = 1000;
 
@@ -48,7 +49,7 @@ class ForkJoinTest {
 
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
-        forkJoinPool.execute(new ArrayFill(arr, 0, arr.length));
+        forkJoinPool.invoke(new ArrayFill(arr, 0, arr.length));
         stopWatch.stop();
         System.out.println("Finish: " + stopWatch.getTotalTimeMillis());
     }
