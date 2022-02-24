@@ -6,7 +6,6 @@ import org.springframework.util.StopWatch;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.RecursiveAction;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 
 class ForkJoinTest {
@@ -49,6 +48,12 @@ class ForkJoinTest {
 
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
+        /*
+         * Invoke method description:
+         *  Arrange async execution	| execute(ForkJoinTask) | ForkJoinTask.fork()
+         *  Await and obtain result | invoke(ForkJoinTask)  | ForkJoinTask.invoke()
+         *  Arrange exec and obtain Future | submit(ForkJoinTask) | ForkJoinTask.fork() (ForkJoinTasks are Futures)
+         */
         forkJoinPool.invoke(new ArrayFill(arr, 0, arr.length));
         stopWatch.stop();
         System.out.println("Finish: " + stopWatch.getTotalTimeMillis());
